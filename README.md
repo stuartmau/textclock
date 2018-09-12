@@ -1,6 +1,8 @@
 ## Text Clock
 
-A HTML/JavaScript text clock clone.
+A HTML/JavaScript text clock clone. 
+
+[Demo](https://stuartmau.github.io/textclock/)
 
 ### Author
 
@@ -10,6 +12,8 @@ A HTML/JavaScript text clock clone.
 ### Copyright and License
 
 Project Copyright Stuart Mau 2018 licensed under the MIT License [LICENSE](LICENSE)
+
+
 
 
 ### Limitations
