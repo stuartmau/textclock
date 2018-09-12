@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html  lang="en-GB">
+<head>
+<meta charset="utf-8"/>
+<meta name="title" content="Text Time">
+<meta name="author" content="Stuart Mau">
+<meta name="description" content="A text display clock clone inspired by https://github.com/searleb/text-clock-chrome">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+<meta http-equiv="refresh" content="1800"/>
+
+<link rel="icon" type="image/svg+xml" href="">
+
+
+<!--Copyright 2018 Stuart Mau (copyright@deauca.com)
+MIT
+
+Permission is hereby granted, free of charge, to any person 
+obtaining a copy of this software and associated 
+documentation files (the "Software"), to deal in the 
+Software without restriction, including without limitation 
+the rights to use, copy, modify, merge, publish, distribute, 
+sublicense, and/or sell copies of the Software, and to 
+permit persons to whom the Software is furnished to do so, 
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall 
+be included in all copies or substantial portions of the 
+Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY 
+KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
+WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR 
+PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
+OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR 
+OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+-->
+
+
+<title>Text Clock</title>
+<style>
+
+:root {
+    --TextColourDefault: #454545;    
+	--TextColourActive: white;  
+	--BackgroundColour: #1c1c1c;  
+}
+
+body {
+	background-color: var(--BackgroundColour);
+	overflow: hidden;
+}
+h2 {
+	color: var(--TextColourDefault);
+	font-family: "DejaVu Sans Mono", monospace;
+    src: url(DejaVuSansMono.ttf) format("truetype");
+	font-size: x-large;
+	letter-spacing: 15px;
+	line-height: 1em;
+}
+
+.flex-container {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="flex-container">
+  	<div>
+		<h2><span id="IT">IT</span>K<span id="IS">IS</span>ASMSDM</h2>
+		<h2><span id="TWENTY">TWENTY</span>Q<span id="FIVE">FIVE</span></h2>
+		<h2><span id="QUARTER">QUARTER</span>D<span id="TEN">TEN</span></h2>
+		<h2><span id="HALF">HALF</span>MOD<span id="PAST">PAST</span></h2>
+		<h2>JI<span id="TO">TO</span>PHT<span id="NINE">NINE</span></h2>
+		<h2><span id="ONE">ONE</span><span id="SIX">SIX</span><span id="THREE">THREE</span></h2>
+		<h2><span id="FOUR">FOUR</span><span id="FIVE">FIVE</span><span id="TWO">TWO</span></h2>
+		<h2><span id="EIGHT">EIGHT</span><span id="ELEVEN">ELEVEN</span></h2>
+		<h2><span id="SEVEN">SEVEN</span><span id="TWELVE">TWELVE</span></h2>
+		<h2><span id="TEN2">TEN</span>Z<span id="OCLOCK">O'CLOCK</span></h2>
+		<h2>HHZ<span id="MIDNIGHT">MIDNIGHT</span></h2>
+	</div>
+</div>
+
+
+
+<script>
+function setTextTime() {
+
+	var textColourActive =  window.getComputedStyle(document.documentElement,null).getPropertyValue('--TextColourActive');
+	var textColourDefault =  window.getComputedStyle(document.documentElement,null).getPropertyValue('--TextColourDefault');
+	
+	var title = "";
+	
+	//Reset all text
+	document.querySelectorAll("span").forEach(function(node)
+	{
+		node.style.color = textColourDefault;
+	});
+
+	var d = new Date();
+	
+	//hour
+	var hh = d.getHours();
+	var h = hh;
+	if(h > 12)
+		var h = hh - 12;
+
+	//minute
+	var mm = d.getMinutes();
+	var m = Math.floor(mm / 5);
+	
+	//it is
+	setSpan("IT", textColourActive);
+	setSpan("IS", textColourActive);
+
+	
+	
+	//set minute
+	var minutes = [
+	[""], 
+	["five", "FIVE"], 
+	["ten", "TEN"], 
+	["quarter", "QUARTER"], 
+	["twenty", "TWENTY"], 
+	["TWENTY FIVE","TWENTY", "FIVE"], 
+	["half", "HALF"],
+	["twenty five","TWENTY", "FIVE"], 
+	["twenty", "TWENTY"], 
+	["quarter", "QUARTER"], 
+	["ten", "TEN"], 
+	["five", "FIVE"]];
+	
+	if( m > 0 )
+	{
+		if ( mm < 35)
+		{
+			setMinute(minutes[m], "PAST", textColourActive);
+			title = minutes[m][0] + " past ";
+		}
+		else
+		{
+			setMinute(minutes[m], "TO", textColourActive);
+			title = minutes[m][0] + " to ";
+		}
+	}
+	
+	//Set hour
+	var hours = [
+	["midnight","MIDNIGHT"], 
+	["one","ONE"], 
+	["two","TWO"], 
+	["three","THREE"], 
+	["four","FOUR"], 
+	["five","FIVE"], 
+	["six","SIX"], 
+	["seven","SEVEN"], 
+	["eight","EIGHT"], 
+	["nine","NINE"], 
+	["ten","TEN"], 
+	["eleven","ELEVEN"], 
+	["twelve","TWELVE"]];
+	
+	
+	setSpan(hours[h][1], textColourActive);
+	title = title + hours[h][0];
+	if(h >0 && m == 0)
+	{
+		setSpan("OCLOCK", textColourActive);
+		title = title + " o'clock";
+	}
+
+	//set document title
+	document.title = title;
+	
+};
+
+function setFavIcon(){
+	if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
+		setSvgTime();
+	}
+	else{
+		//setSvgTime();
+		setPngTime();
+	}
+}
+
+function setSvgTime() {
+
+	var d = new Date();
+	var hh = d.getHours();
+	
+	var mm = d.getMinutes();
+	
+	var minuteRotation = mm/60*360;
+	var hourRotation = (hh %12)/12*360;
+	
+	var minuteTransform = " transform=\"translate(50,50) rotate("+ minuteRotation +")\" ";
+	var hourTransform =   " transform=\"translate(50,50) rotate("+ hourRotation +")\" ";
+	
+	//Clock Svg.
+	var svgClock = "<svg \
+	xmlns=\"http://www.w3.org/2000/svg\" \
+	version=\"1.1\" \
+	xmlns:xlink=\"http://www.w3.org/1999/xlink\" \
+	width=\"196\" \
+	height=\"196\" \
+	viewBox=\"0 0 100 100\" \
+	>\r\n \
+		<circle cx=\"50\" cy=\"50\" r=\"40\" \
+			stroke=\"black\" \
+			stroke-width=\"5\" \
+			fill=\"transparent\" \
+		\/> \
+			<circle cx=\"50\" cy=\"50\" r=\"8\" \
+			stroke=\"none\" \
+			fill=\"black\" \
+		\/> \
+		<line \
+			id=\"minuteHand\" \
+			x1=\"0\" y1=\"0\" x2=\"0\" y2=\"-27\" \
+			" + minuteTransform + "\
+			stroke=\"black\" \
+			stroke-width=\"7\" \
+			fill=\"black\" \
+			stroke-linecap=\"round\" \
+		\/> \
+		<line \
+			id=\"hourHand\" \
+			x1=\"0\" y1=\"0\" x2=\"0\" y2=\"-17\" \
+			" + hourTransform + "\
+			stroke=\"black\" \
+			stroke-width=\"10\" \
+			fill=\"black\" \
+			stroke-linecap=\"round\" \
+		\/> \
+	<\/svg>";
+	
+	document.querySelector("link[rel*='icon']").href = "data:image/svg+xml," + svgClock;
+};
+
+function setPngTime(){
+	var pngClockIcon = "\
+data:image/png;base64,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";
+
+	document.querySelector("link[rel*='icon']").href = pngClockIcon;
+
+}
+
+
+function setSpan(id, color )
+{
+	document.getElementById(id).style.color = color;
+}
+
+function setMinute(idArray, idpastto, color )
+{ 
+	if (idArray.length == 2)
+	{
+		setSpan(idArray[1], color );
+	}
+	else if (idArray.length == 3)
+	{
+		setSpan(idArray[1], color );
+		setSpan(idArray[2], color );
+	}
+	
+	setSpan(idpastto,color);
+}
+
+function secondTimer() {
+    setTextTime();
+}
+
+function minuteTimer() {
+    setFavIcon();
+}
+
+setTextTime();
+setFavIcon();
+	
+setInterval(secondTimer, 1000);
+setInterval(minuteTimer, 1000 * 60);
+
+</script>
+
+
+</body>
+</html> 
