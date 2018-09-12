@@ -44,8 +44,8 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 :root {
     --TextColourDefault: #454545;    
-	--TextColourActive: white;  
-	--BackgroundColour: #1c1c1c;  
+    --TextColourActive: white;  
+    --BackgroundColour: #1c1c1c;  
 }
 
 body {
@@ -181,6 +181,29 @@ function setTextTime() {
 	document.title = title;
 	
 };
+
+
+function setSpan(id, color )
+{
+	document.getElementById(id).style.color = color;
+}
+
+function setMinute(idArray, idpastto, color )
+{ 
+	if (idArray.length == 2)
+	{
+		setSpan(idArray[1], color );
+	}
+	else if (idArray.length == 3)
+	{
+		setSpan(idArray[1], color );
+		setSpan(idArray[2], color );
+	}
+	
+	setSpan(idpastto,color);
+}
+
+
 
 function setFavIcon(){
 	if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
@@ -327,26 +350,6 @@ DMMwDMMwDMMwDMMwDMMwDMMwDMMwDMMwDMMwDMMwDMMwDMMwDMMwDMMwDMMwDMMwDCMD/h+w7X6tyOUZ
 
 }
 
-
-function setSpan(id, color )
-{
-	document.getElementById(id).style.color = color;
-}
-
-function setMinute(idArray, idpastto, color )
-{ 
-	if (idArray.length == 2)
-	{
-		setSpan(idArray[1], color );
-	}
-	else if (idArray.length == 3)
-	{
-		setSpan(idArray[1], color );
-		setSpan(idArray[2], color );
-	}
-	
-	setSpan(idpastto,color);
-}
 
 function secondTimer() {
     setTextTime();
