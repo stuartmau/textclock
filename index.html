@@ -118,10 +118,11 @@ function setTextTime() {
 	if (mm >= 35)
 		h = (h+1)
 	
-	if (hh == 25)
-		h = 0;
-	else if(hh > 12)
-		var h = hh - 12;
+	h = h % 24;
+	
+	if(h >12)
+		h = h - 12;
+
 
 
 	//it is
