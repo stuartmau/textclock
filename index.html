@@ -107,21 +107,26 @@ function setTextTime() {
 
 	var d = new Date();
 	
-	//hour
-	var hh = d.getHours();
-	var h = hh;
-	if(h > 12)
-		var h = hh - 12;
-
 	//minute
 	var mm = d.getMinutes();
 	var m = Math.floor(mm / 5);
 	
+	//hour
+	var hh = d.getHours();
+	var h = hh;
+	
+	if (mm >= 35)
+		h = (h+1)
+	
+	if (hh == 25)
+		h = 0;
+	else if(hh > 12)
+		var h = hh - 12;
+
+
 	//it is
 	setSpan("IT", textColourActive);
 	setSpan("IS", textColourActive);
-
-	
 	
 	//set minute
 	var minutes = [
