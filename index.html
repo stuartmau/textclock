@@ -76,15 +76,15 @@ h2 {
 <div class="flex-container">
   	<div>
 		<h2><span id="IT">IT</span>K<span id="IS">IS</span>ASMSDM</h2>
-		<h2><span id="TWENTY">TWENTY</span>Q<span id="FIVE">FIVE</span></h2>
-		<h2><span id="QUARTER">QUARTER</span>D<span id="TEN">TEN</span></h2>
+		<h2><span id="TWENTY">TWENTY</span>Q<span id="FIVEminutes">FIVE</span></h2>
+		<h2><span id="QUARTER">QUARTER</span>D<span id="TENminutes">TEN</span></h2>
 		<h2><span id="HALF">HALF</span>MOD<span id="PAST">PAST</span></h2>
 		<h2>JI<span id="TO">TO</span>PHT<span id="NINE">NINE</span></h2>
 		<h2><span id="ONE">ONE</span><span id="SIX">SIX</span><span id="THREE">THREE</span></h2>
 		<h2><span id="FOUR">FOUR</span><span id="FIVE">FIVE</span><span id="TWO">TWO</span></h2>
 		<h2><span id="EIGHT">EIGHT</span><span id="ELEVEN">ELEVEN</span></h2>
 		<h2><span id="SEVEN">SEVEN</span><span id="TWELVE">TWELVE</span></h2>
-		<h2><span id="TEN2">TEN</span>Z<span id="OCLOCK">O'CLOCK</span></h2>
+		<h2><span id="TEN">TEN</span>Z<span id="OCLOCK">O'CLOCK</span></h2>
 		<h2>HHZ<span id="MIDNIGHT">MIDNIGHT</span></h2>
 	</div>
 </div>
@@ -110,7 +110,7 @@ function setTextTime() {
 	//minute
 	var mm = d.getMinutes();
 	var m = Math.floor(mm / 5);
-	
+
 	//hour
 	var hh = d.getHours();
 	var h = hh;
@@ -123,8 +123,6 @@ function setTextTime() {
 	if(h >12)
 		h = h - 12;
 
-
-
 	//it is
 	setSpan("IT", textColourActive);
 	setSpan("IS", textColourActive);
@@ -132,17 +130,17 @@ function setTextTime() {
 	//set minute
 	var minutes = [
 	[""], 
-	["five", "FIVE"], 
-	["ten", "TEN"], 
+	["five", "FIVEminutes"], 
+	["ten", "TENminutes"], 
 	["quarter", "QUARTER"], 
 	["twenty", "TWENTY"], 
-	["twenty five","TWENTY", "FIVE"], 
+	["twenty five","TWENTY", "FIVEminutes"], 
 	["half", "HALF"],
-	["twenty five","TWENTY", "FIVE"], 
+	["twenty five","TWENTY", "FIVEminutes"], 
 	["twenty", "TWENTY"], 
 	["quarter", "QUARTER"], 
-	["ten", "TEN"], 
-	["five", "FIVE"]];
+	["ten", "TENminutes"], 
+	["five", "FIVEminutes"]];
 	
 	if( m > 0 )
 	{
